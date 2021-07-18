@@ -1,5 +1,5 @@
 def solution(n, t, m, timetable):
-    time_list = list()
+    time_list = []
     for time in timetable:
         minute = int(time[:2]) * 60 + int(time[3:])
         time_list.append(minute)
@@ -7,9 +7,9 @@ def solution(n, t, m, timetable):
     time_list.sort()
 
     bus_time = 9 * 60
-    time_dict = dict()
+    time_dict = {}
     for i in range(n):
-        waiting_list = list()
+        waiting_list = []
         for j in range(m):
             if len(time_list) != 0 and time_list[0] <= bus_time:
                 waiting_list.append(time_list.pop(0))
