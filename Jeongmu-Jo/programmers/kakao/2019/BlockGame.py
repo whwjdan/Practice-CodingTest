@@ -1,5 +1,40 @@
 Board = []
 
+def canFill(row, col):
+    # 위에서 아래로 내려가면서 0 ~ 해당 행렬 좌표로 가면서
+    # 3 *2 or 2 * 3중 현재 0이지만 채워야하는 경우 위에서부터 0인지 체크해서
+    # 모두 0이면 채울 수 있기 때문에 True return
+    for i in range(row):
+        if Board[i][col]:
+            return False
+    return True
+
+def find(row, col, h, w):
+    emptyCnt = 0
+    # lastValue -> 3*2 or 2*3영역에서 숫자가 같은 숫자인지 체크하기 위해 사용
+    lastValue = -1
+    # 3*2 or 2*3 행렬에서 빈칸 0에 숫자를 채워야하므로 0일때 검은블록을 채울수있는지 체크
+    
+    for r in range(row, row + h):
+        for c in range(col, col + w):
+            if Board[r][c] == 0:
+                if canFill(r, c) == False:
+                    return False
+                emptyCnt += 1
+                if emptyCnt > 2:
+                    return False
+            else:
+                # lastValue -> -1인 경우는 초기값
+                if lastValue == -1:
+                    lastValue = Board[r][c]
+                # 초기값이 아닌데 값이 다른경우 ex) 2*3영역에서 1과 2가 섞여있을때
+                elif lastValue != Board[r][c]:
+                    return False
+    # 위의 모든 조건을 통과한 경우 : 지울 수 있는 경우 0으로 지워준다.
+    for r in range(row, row + h):
+        for c in range(col, col + w):
+            Board[r][c] = 0
+    return True
                     
 
 def solution(board):
@@ -24,8 +59,7 @@ def solution(board):
     return answer
 
     
-# 초기에 풀려고 만들었던 함수
-# 검은블록을 채운뒤 이중포문을 돌면서 해당 숫자가 직사각형인지 체크하는 함수를 만들었었다.
+
 def chk_rec(board, num):
     # 위에서 아래로 내려오면서 한 세로줄 마다 스택으로 넣고 첫행의 num의 개수를 cnt로 정하고
     # 그 다음 행에서 cnt와 개수가 똑같은지 확인
